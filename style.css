@@ -17,14 +17,18 @@ button {
   position: absolute;
   top: 20px;
   right: 20px;
-  color: #ff5757;
+  color: #ffffff;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+  1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
 }
 
 #score-text {
   position: absolute;
   top: 20px;
-  right: 80px;
-  color: #ff5757;
+  right: 90px;
+  color: #ffffff;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+  1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
 }
 
 #highscore-text {
@@ -32,6 +36,8 @@ button {
   top: 80px;
   right: 80px;
   color: white;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+             1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
   font-size: 15px;
 }
 
@@ -40,6 +46,8 @@ button {
   top: 80px;
   right: 20px;
   color: white;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+            1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
   font-size: 15px;
 }
 

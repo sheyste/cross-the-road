@@ -1,6 +1,10 @@
 const counterDOM = document.getElementById('counter');  
 const endDOM = document.getElementById('end');  
 
+let score = 0;
+let highscore = localStorage.getItem("highscore") || 0; // Load high score from localStorage
+
+
 const scene = new THREE.Scene();
 
 const distance = 500;
@@ -487,92 +491,112 @@ function move(direction) {
 }
 
 function animate(timestamp) {
-  requestAnimationFrame( animate );
+  requestAnimationFrame(animate);
 
-  if(!previousTimestamp) previousTimestamp = timestamp;
+  if (!previousTimestamp) previousTimestamp = timestamp;
   const delta = timestamp - previousTimestamp;
   previousTimestamp = timestamp;
 
   // Animate cars and trucks moving on the lane
-  lanes.forEach(lane => {
-    if(lane.type === 'car' || lane.type === 'truck') {
-      const aBitBeforeTheBeginingOfLane = -boardWidth*zoom/2 - positionWidth*2*zoom;
-      const aBitAfterTheEndOFLane = boardWidth*zoom/2 + positionWidth*2*zoom;
-      lane.vechicles.forEach(vechicle => {
-        if(lane.direction) {
-          vechicle.position.x = vechicle.position.x < aBitBeforeTheBeginingOfLane ? aBitAfterTheEndOFLane : vechicle.position.x -= lane.speed/16*delta;
-        }else{
-          vechicle.position.x = vechicle.position.x > aBitAfterTheEndOFLane ? aBitBeforeTheBeginingOfLane : vechicle.position.x += lane.speed/16*delta;
+  lanes.forEach((lane) => {
+    if (lane.type === "car" || lane.type === "truck") {
+      const aBitBeforeTheBeginingOfLane =
+        -boardWidth * zoom / 2 - positionWidth * 2 * zoom;
+      const aBitAfterTheEndOFLane =
+        boardWidth * zoom / 2 + positionWidth * 2 * zoom;
+      lane.vechicles.forEach((vechicle) => {
+        if (lane.direction) {
+          vechicle.position.x =
+            vechicle.position.x < aBitBeforeTheBeginingOfLane
+              ? aBitAfterTheEndOFLane
+              : (vechicle.position.x -= lane.speed / 16 * delta);
+        } else {
+          vechicle.position.x =
+            vechicle.position.x > aBitAfterTheEndOFLane
+              ? aBitBeforeTheBeginingOfLane
+              : (vechicle.position.x += lane.speed / 16 * delta);
         }
       });
     }
   });
 
-  if(startMoving) {
+  if (startMoving) {
     stepStartTimestamp = timestamp;
     startMoving = false;
   }
 
-  if(stepStartTimestamp) {
+  if (stepStartTimestamp) {
     const moveDeltaTime = timestamp - stepStartTimestamp;
-    const moveDeltaDistance = Math.min(moveDeltaTime/stepTime,1)*positionWidth*zoom;
-    const jumpDeltaDistance = Math.sin(Math.min(moveDeltaTime/stepTime,1)*Math.PI)*8*zoom;
-    switch(moves[0]) {
-      case 'forward': {
-        const positionY = currentLane*positionWidth*zoom + moveDeltaDistance;
-        camera.position.y = initialCameraPositionY + positionY; 
-        dirLight.position.y = initialDirLightPositionY + positionY; 
+    const moveDeltaDistance =
+      (Math.min(moveDeltaTime / stepTime, 1) * positionWidth * zoom);
+    const jumpDeltaDistance =
+      Math.sin(Math.min(moveDeltaTime / stepTime, 1) * Math.PI) * 8 * zoom;
+    switch (moves[0]) {
+      case "forward": {
+        const positionY = currentLane * positionWidth * zoom + moveDeltaDistance;
+        camera.position.y = initialCameraPositionY + positionY;
+        dirLight.position.y = initialDirLightPositionY + positionY;
         chicken.position.y = positionY; // initial chicken position is 0
 
         chicken.position.z = jumpDeltaDistance;
         break;
       }
-      case 'backward': {
-        positionY = currentLane*positionWidth*zoom - moveDeltaDistance
+      case "backward": {
+        positionY = currentLane * positionWidth * zoom - moveDeltaDistance;
         camera.position.y = initialCameraPositionY + positionY;
-        dirLight.position.y = initialDirLightPositionY + positionY; 
+        dirLight.position.y = initialDirLightPositionY + positionY;
         chicken.position.y = positionY;
 
         chicken.position.z = jumpDeltaDistance;
         break;
       }
-      case 'left': {
-        const positionX = (currentColumn*positionWidth+positionWidth/2)*zoom -boardWidth*zoom/2 - moveDeltaDistance;
-        camera.position.x = initialCameraPositionX + positionX;     
-        dirLight.position.x = initialDirLightPositionX + positionX; 
+      case "left": {
+        const positionX =
+          (currentColumn * positionWidth + positionWidth / 2) * zoom -
+          boardWidth * zoom / 2 -
+          moveDeltaDistance;
+        camera.position.x = initialCameraPositionX + positionX;
+        dirLight.position.x = initialDirLightPositionX + positionX;
         chicken.position.x = positionX; // initial chicken position is 0
         chicken.position.z = jumpDeltaDistance;
         break;
       }
-      case 'right': {
-        const positionX = (currentColumn*positionWidth+positionWidth/2)*zoom -boardWidth*zoom/2 + moveDeltaDistance;
-        camera.position.x = initialCameraPositionX + positionX;       
+      case "right": {
+        const positionX =
+          (currentColumn * positionWidth + positionWidth / 2) * zoom -
+          boardWidth * zoom / 2 +
+          moveDeltaDistance;
+        camera.position.x = initialCameraPositionX + positionX;
         dirLight.position.x = initialDirLightPositionX + positionX;
-        chicken.position.x = positionX; 
+        chicken.position.x = positionX;
 
         chicken.position.z = jumpDeltaDistance;
         break;
       }
     }
     // Once a step has ended
-    if(moveDeltaTime > stepTime) {
-      switch(moves[0]) {
-        case 'forward': {
+    if (moveDeltaTime > stepTime) {
+      switch (moves[0]) {
+        case "forward": {
           currentLane++;
-          counterDOM.innerHTML = currentLane;    
+          counterDOM.innerHTML = currentLane;
+          score = currentLane;
           break;
         }
-        case 'backward': {
+        case "backward": {
           currentLane--;
-          counterDOM.innerHTML = currentLane;    
+          counterDOM.innerHTML = currentLane;
+          score = currentLane;
           break;
         }
-        case 'left': {
+        case "left": {
           currentColumn--;
+          score = currentLane;
           break;
         }
-        case 'right': {
+        case "right": {
           currentColumn++;
+          score = currentLane;
           break;
         }
       }
@@ -583,21 +607,43 @@ function animate(timestamp) {
   }
 
   // Hit test
-  if(lanes[currentLane].type === 'car' || lanes[currentLane].type === 'truck') {
-    const chickenMinX = chicken.position.x - chickenSize*zoom/2;
-    const chickenMaxX = chicken.position.x + chickenSize*zoom/2;
-    const vechicleLength = { car: 60, truck: 105}[lanes[currentLane].type]; 
-    lanes[currentLane].vechicles.forEach(vechicle => {
-      const carMinX = vechicle.position.x - vechicleLength*zoom/2;
-      const carMaxX = vechicle.position.x + vechicleLength*zoom/2;
-      if(chickenMaxX > carMinX && chickenMinX < carMaxX) {
+  if (lanes[currentLane].type === "car" || lanes[currentLane].type === "truck") {
+    const chickenMinX = chicken.position.x - chickenSize * zoom / 2;
+    const chickenMaxX = chicken.position.x + chickenSize * zoom / 2;
+    const vechicleLength = { car: 60, truck: 105 }[lanes[currentLane].type];
+    lanes[currentLane].vechicles.forEach((vechicle) => {
+      const carMinX = vechicle.position.x - vechicleLength * zoom / 2;
+      const carMaxX = vechicle.position.x + vechicleLength * zoom / 2;
+      if (chickenMaxX > carMinX && chickenMinX < carMaxX) {
         gameOver = true;
-        endDOM.style.visibility = 'visible';
+        endDOM.style.visibility = "visible";
+        
+        // Add this line to update the high score
+        if (score > highscore) {
+          highscore = score;
+          localStorage.setItem("highscore", highscore);
+        }
+        // Display the high score
+        console.log("High Score:", highscore);
       }
     });
-
   }
-  renderer.render( scene, camera );	
+
+  // Initial update of high score display
+  updateHighScoreDisplay();
+  renderer.render(scene, camera);
 }
+
+
+// Function to update the high score display
+function updateHighScoreDisplay() {
+  const highscoreElement = document.getElementById("highscore");
+  if (highscoreElement) {
+    highscoreElement.innerText = highscore;
+  }
+}
+
+// Initial update of high score display
+updateHighScoreDisplay();
 
 requestAnimationFrame( animate );

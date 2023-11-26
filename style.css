@@ -17,7 +17,32 @@ button {
   position: absolute;
   top: 20px;
   right: 20px;
+  color: #ff5757;
 }
+
+#score-text {
+  position: absolute;
+  top: 20px;
+  right: 80px;
+  color: #ff5757;
+}
+
+#highscore-text {
+  position: absolute;
+  top: 80px;
+  right: 80px;
+  color: white;
+  font-size: 15px;
+}
+
+#highscore {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  color: white;
+  font-size: 15px;
+}
+
 #end {
   position: absolute;
   min-width: 100%;

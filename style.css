@@ -34,7 +34,7 @@ button {
 #highscore-text {
   position: absolute;
   top: 80px;
-  right: 80px;
+  right: 100px;
   color: white;
   text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
              1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;

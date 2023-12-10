@@ -1,4 +1,4 @@
-# Cross-the-Road
+# Cross-the-Road by Sheyste Benerable
 
 ![image](https://github.com/sheyste/cross-the-road/assets/86936264/53eb50b1-65be-4bf3-8426-accb7996e232)
 

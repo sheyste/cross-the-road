@@ -166,7 +166,7 @@ function Car() {
   const main = new THREE.Mesh(
     new THREE.BoxBufferGeometry( 60*zoom, 30*zoom, 15*zoom ), 
     new THREE.MeshPhongMaterial( { color, flatShading: true } )
-  );
+  ); //Made by Sheyste Benerable
   main.position.z = 12*zoom;
   main.castShadow = true;
   main.receiveShadow = true;

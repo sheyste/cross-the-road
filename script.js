@@ -430,13 +430,6 @@ document.querySelector("#retry").addEventListener("click", () => {
   endDOM.style.visibility = 'hidden';
 });
 
-document.getElementById('forward').addEventListener("click", () => move('forward'));
-
-document.getElementById('backward').addEventListener("click", () => move('backward'));
-
-document.getElementById('left').addEventListener("click", () => move('left'));
-
-document.getElementById('right').addEventListener("click", () => move('right'));
 
 window.addEventListener("keydown", event => {
   if ((event.keyCode == '38') && (!gameOver)) {

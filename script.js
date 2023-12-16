@@ -645,3 +645,22 @@ function updateHighScoreDisplay() {
 updateHighScoreDisplay();
 
 requestAnimationFrame( animate );
+
+  // Function to show an element for a specified duration
+  function showElementForDuration(elementId, duration) {
+    var element = document.getElementById(elementId);
+
+    // Function to hide the element
+    function hideElement() {
+      element.style.display = 'none';
+    }
+
+    // Show the element
+    element.style.display = 'block';
+
+    // Set a timeout to hide the element after the specified duration
+    setTimeout(hideElement, duration);
+  }
+
+  // Call the function with the desired element ID and duration
+  showElementForDuration('introduction', 8000);

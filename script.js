@@ -134,20 +134,6 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 
-//Instruction
-var introductionElement = document.getElementById('introduction');
-
-  // Function to hide the element after 8 seconds
-function hideElement() {
-  introductionElement.style.display = 'none';
-}
-
-  // Show the element
-introductionElement.style.display = 'block';
-
-  // Set a timeout to hide the element after 8 seconds (8000 milliseconds)
-setTimeout(hideElement, 8000);
-
 function Texture(width, height, rects) {
   const canvas = document.createElement( "canvas" );
   canvas.width = width;
